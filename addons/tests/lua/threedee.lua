@@ -1,6 +1,4 @@
-local window = asdfml.OpenWindow()
- 
-asdfml.SetMouseTrapped(true)
+local window = glw.OpenWindow()
  
 local cam_pos = Vec3(0, 0, -10)
 local cam_ang = Ang3(0, 0, 0)     
@@ -13,7 +11,7 @@ local function calc_camera(window, dt)
 	cam_ang:Normalize()
 	local speed = dt * 10
 	
-	local delta = asdfml.GetMouseDelta() * dt / 2
+	local delta = input.GetMouseDelta() * dt / 2
 	cam_ang.p = cam_ang.p + delta.y
 	cam_ang.y = cam_ang.y + delta.x
 	cam_ang.p = math.clamp(cam_ang.p, -math.pi/2, math.pi/2)
@@ -123,11 +121,11 @@ obj:SetModel("face.obj")
 obj:SetTexture("face1.png")
 
 gl.ClearColor(0,0,0,0)  
-
-event.AddListener("OnDraw", "gl", function(dt, window)
+input.SetMouseTrapped(true)
+ 
+event.AddListener("OnDraw", "gl", function(dt)
   	calc_camera(window, dt) 
-	render.SetViewport() 
-
+	render.SetViewport()
 		
 	render.Clear(e.GL_COLOR_BUFFER_BIT, e.GL_DEPTH_BUFFER_BIT)
 	
@@ -135,21 +133,27 @@ event.AddListener("OnDraw", "gl", function(dt, window)
 		for key, obj in pairs(active_models) do
 			obj:Draw() 
 		end				
-	 
-	render.Start2D()
-	local w, h = 200, 200 
 	
-	render.SetTexture(0)
-	gl.UseProgram(0)
+	if true then
+		render.Start2D()
+			local w, h = 200, 200 
+			
+			render.SetTexture(0)
+			gl.UseProgram(0)
+			
+			gl.Translatef(0.5, 0.5, 0)
+			
+			gl.Color4f(1,1,0, 0.5)
+			
+			gl.Begin(e.GL_QUADS)
+				gl.Vertex2f(0, 0)
+				gl.Vertex2f(0, h)
+				gl.Vertex2f(w, h) 
+				gl.Vertex2f(w, 0) 			
+			gl.End()
+	end		
 	
-	gl.Translatef(0.5, 0.5, 0)
-	gl.Color3f(1,1,0)
-	gl.Begin(e.GL_QUADS)
-		gl.Vertex2f(0, 0)
-		gl.Vertex2f(0, h)
-		gl.Vertex2f(w, h) 
-		gl.Vertex2f(w, 0) 			
-	gl.End()
-		
-	--render.End()
+	glfw.SwapBuffers(window.ptr)
+	
+	render.End()
 end) 

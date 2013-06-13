@@ -2,7 +2,7 @@ local test = Texture("file", R"textures/blowfish.png",  IntRect(0, 0, 100, 100))
 local arrow = Texture("file", R"textures/arrow.png", IntRect(0, 0, 64, 64));
 
 local font = Font("file", R"fonts/arial.ttf")  
-local window = asdfml.OpenWindow()
+local window = glw.OpenWindow()
 
 local vertex = [[
 	uniform vec3 pos;

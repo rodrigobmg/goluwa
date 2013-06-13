@@ -4,7 +4,7 @@ if (window) then
 	window:Close();
 end;
 
-local window = asdfml.OpenWindow();
+local window = glw.OpenWindow();
 
 window:SetTitle("Console");
  

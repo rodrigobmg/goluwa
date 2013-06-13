@@ -94,7 +94,7 @@ do -- circle body
 
 end
 	
-local window = asdfml.OpenWindow()
+local window = glw.OpenWindow()
 window:SetFramerateLimit(60)
 
 local zoom_factor = 1.0

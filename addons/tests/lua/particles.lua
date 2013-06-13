@@ -80,7 +80,7 @@ do
 	});
 end;
 
-local window = asdfml.OpenWindow();
+local window = glw.OpenWindow();
 local particleSystem = ParticleSystem();
 
 for i = 1, 2500 do
