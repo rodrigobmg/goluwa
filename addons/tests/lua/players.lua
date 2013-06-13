@@ -6,7 +6,7 @@ if (SERVER) then
 	return;
 end;
 
-local window = asdfml.OpenWindow();
+local window = glw.OpenWindow();
 local font = Font("file", R"fonts/arial.ttf");
 
 local points = {};

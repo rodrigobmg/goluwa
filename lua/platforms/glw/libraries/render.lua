@@ -1,10 +1,6 @@
 local render = _G.render or {}
 
-local tmp_color
-
-function render.Initialize(w, h)	
-	tmp_color = sfml.Color()
-	
+function render.Initialize(w, h)		
 	render.cam_pos = Vec3(0,0,0)
 	render.farz = 32000
 	render.nearz = 0.1
@@ -24,6 +20,10 @@ function render.Initialize(w, h)
 	gl.BlendFunc(e.GL_SRC_ALPHA, e.GL_ONE_MINUS_SRC_ALPHA)
 	gl.PolygonMode(e.GL_FRONT_AND_BACK, e.GL_FILL)
 end
+
+event.AddListener("OnWindowResize", "render", function()
+	render.Initialize(w, h)
+end)
 
 function render.Clear(flag, ...)
 	flag = flag or e.GL_COLOR_BUFFER_BIT
@@ -75,7 +75,7 @@ do -- textures
 	_E.TEX_FLAG_TEXTURE_RECTANGLE = 512
 
 	function render.CreateTexture(path, channel_flags, texture_flags, prev_tex_id)
-		return soil.LoadImage(vfs.Read(path, "rb"), texture_flags, channel_flags, prev_tex_id)
+		return freeimage.LoadImage(vfs.Read(path, "rb"), texture_flags, channel_flags, prev_tex_id)
 	end
 	
 	function render.SetTexture(id)
@@ -256,6 +256,10 @@ do -- shaders
 		end
 		
 		return program
+	end
+	
+	function render.SetShader(id)
+		gl.UseProgram(id or 0)
 	end
 end
 

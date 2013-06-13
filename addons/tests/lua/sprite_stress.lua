@@ -4,7 +4,7 @@ local HEIGHT = 1080
 local NUM_SPRITES = 40000
 local MAX_SCALE = 2
 
-local window = asdfml.OpenWindow(WIDTH, HEIGHT)
+local window = glw.OpenWindow(WIDTH, HEIGHT)
 
 local sprites = {}
 

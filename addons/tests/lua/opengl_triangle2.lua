@@ -1,4 +1,4 @@
-local window = asdfml.OpenWindow()
+local window = glw.OpenWindow()
 
 gl.ClearColor(0, 0.25, 0.5, 1)
 gl.LineWidth(1.5)

@@ -118,7 +118,7 @@ do
 
 end
 
-local window = asdfml.OpenWindow()
+local window = glw.OpenWindow()
 print(window)
 local test = Texture("file", R"textures/cute_image.jpg",  Rect(0, 0, 100, 100))
 

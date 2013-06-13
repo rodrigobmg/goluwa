@@ -2,13 +2,13 @@ local header = [[
 typedef struct GLFWmonitor GLFWmonitor;
 typedef struct GLFWwindow GLFWwindow;
 
-typedef void (*GLFWglproc)(void);
+typedef void (* GLFWglproc)(void);
 typedef void (* GLFWerrorfun)(int,const char*);
 typedef void (* GLFWwindowposfun)(GLFWwindow*,int,int);
 typedef void (* GLFWwindowsizefun)(GLFWwindow*,int,int);
 typedef void (* GLFWwindowclosefun)(GLFWwindow*);
 typedef void (* GLFWwindowrefreshfun)(GLFWwindow*);
-typedef void (* GLFWwindowfocusfun)(GLFWwindow*,int);
+typedef void (* GLFWwindowfocusfun)(GLFWwindow*,bool);
 typedef void (* GLFWwindowiconifyfun)(GLFWwindow*,int);
 typedef void (* GLFWframebuffersizefun)(GLFWwindow*,int,int);
 typedef void (* GLFWmousebuttonfun)(GLFWwindow*,int,int,int);
@@ -322,7 +322,7 @@ ffi.cdef(header)
 
 local glfw = {}
 
-local lib = ffi.load("glfw3")
+local lib = ffi.load(jit.os == "Linux" and "glfw" or "glfw3")
 
 for line in header:gmatch("(.-)\n") do
 	local name = line:match("glfw(.-)%(")
@@ -332,9 +332,97 @@ for line in header:gmatch("(.-)\n") do
 	end
 end
 
+glfw.Init()
+
 for key, val in pairs(e) do
 	--glfw[key:sub(6)] = val
 	_E[key] = val
 end
+
+local calllbacks = {}
+
+for line in header:gmatch("(.-)\n") do
+	local name = line:match("(glfwSet.-Callback)")
+	if name then
+		local nice = "On" .. name:match("glfwSet(.-)Callback")
+		
+		calllbacks[nice] = lib[name]
+	end
+end
+
+local reverse_enums = {}
+
+for k,v in pairs(e) do
+	local nice = k:lower():sub(6)
+	reverse_enums[v] = nice
+end
+
+function glfw.EnumToString(num)
+	return reverse_enums[num]
+end
+
+local keys = {}
+
+for k,v in pairs(reverse_enums) do
+	
+	if v:sub(0, 3) == "key" then
+		keys[k] = v:sub(5)
+	end
+end
+
+function glfw.KeyToString(num)
+	return keys[num]
+end
+
+local mousebuttons = {}
+
+for k,v in pairs(reverse_enums) do
+	
+	if v:sub(0, 5) == "mouse" then
+		mousebuttons[k] = v:sub(7)
+	end
+end
+
+function glfw.MouseToString(num)
+	return mousebuttons[num]
+end
+
+calllbacks.OnError(function(code, str) logn(ffi.string(str)) end)
+calllbacks.OnError = nil
+
+calllbacks.OnMonitor(function() events.Call("OnMonitorConnected") end)
+calllbacks.OnMonitor = nil
+
+glfw.CreateWindowX = glfw.CreateWindow
+
+function glfw.CreateWindow(width, height, title)
+
+
+	local window = glfw.CreateWindowX(width or 680, height or 440, time or "", nil, nil)
+	local obj = {Type = "glfw window"}
+
+	obj.ptr = window	
+	obj.availible_callbacks = {}
+	for nice, func in pairs(calllbacks) do
+		obj.availible_callbacks[nice] = nice		
+		func(window, function(self, ...)
+			if obj[nice] then 
+				obj[nice](...)
+			end
+		end)
+	end
+
+
+	function obj:Remove()
+		glfw.DestroyWindow(window)
+		utilities.MakeNULL(self)
+	end
+	
+	function obj:IsValid()
+		return true
+	end
+	
+	return obj
+end 
 
 return glfw
