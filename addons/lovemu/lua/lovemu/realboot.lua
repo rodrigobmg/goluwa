@@ -47,8 +47,8 @@ local function init_love(cd, ...)
 		package.love_loader_added = true 
 	end
 	
-	if not love then	
-		system.SetDLLDirectory(path:sub(0,-10))		
+	--if not love then	
+		system.SetDLLDirectory(path:sub(0,-10))
 			_G.arg = {...}
 			package.preload["love"] = package.loadlib(path, "luaopen_love") 
 			package.loadlib(path, "luaopen_love_boot")()
@@ -105,7 +105,7 @@ local function init_love(cd, ...)
 			flags.borderless=false
 			love.window.setMode(w, h, flags)
 		end
-	end	
+	--end	
 	
 	if love then
 		love.current_dir = cd
@@ -125,9 +125,10 @@ local function init_love(cd, ...)
 	return coroutine.create(love.run)
 end 
     
-local function run_lover(name, ...)
-	 
+function lovemu.bootreal(name, ...)
+		 
 	local path = R"lovers/" .. name .. "/"
+	path = vfs.FixPath(path)
 	local func = assert(loadfile(path .. "/main.lua")) 
 	local co = init_love(path, path, ...) 
 	love.love_dll.PHYSFS_addToSearchPath(path, 1) 
@@ -143,7 +144,3 @@ local function run_lover(name, ...)
 		end
 	end)
 end
-
-console.AddCommand("lover", function(line, name, ...)
-	run_lover(name, ...)
-end)

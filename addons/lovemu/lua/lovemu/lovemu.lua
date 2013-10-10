@@ -10,6 +10,8 @@ local lovemu=lovemu
 lovemu.demoname="" --internal, demo folder name
 lovemu.delta=0 --frametime
 
+include("realboot.lua")
+
 local getn=table.getn
 local pairs=pairs
 local find=string.find
@@ -124,7 +126,7 @@ function love.update(dt)
 end	
 
 function love.draw()
-end	
+end
 
 console.AddCommand("lovemu", function(line)
 	local param=string.split(line," ")
@@ -143,6 +145,20 @@ console.AddCommand("lovemu", function(line)
 			print("Usage: lovemu run <folder name>")
 		end
 		
+	elseif param[1]=="runreal" then
+		if param[2] then
+			local str=""
+			for i=2,#param do
+				str=str..param[i]
+			end
+			if str=="" then
+				print("Usage: lovemu run <folder name>")
+			else
+				lovemu.bootreal(str)
+			end
+		else
+			print("Usage: lovemu run <folder name>")
+		end
 	elseif param[1]=="check" then
 		if param[2] then
 			local functions_list={}
