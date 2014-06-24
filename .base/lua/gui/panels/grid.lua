@@ -2,15 +2,15 @@ local PANEL = {}
 
 PANEL.ClassName = "grid"
 
-aahh.GetSet(PANEL, "ItemSize")
-aahh.GetSet(PANEL, "Spacing", Vec2(1, 1))
+gui.GetSet(PANEL, "ItemSize")
+gui.GetSet(PANEL, "Spacing", Vec2(1, 1))
 
-aahh.GetSet(PANEL, "StackRight", true)
-aahh.GetSet(PANEL, "StackDown", true)
+gui.GetSet(PANEL, "StackRight", true)
+gui.GetSet(PANEL, "StackDown", true)
 
-aahh.GetSet(PANEL, "SizeToWidth", false)
-aahh.GetSet(PANEL, "SizeToHeight", false)
-aahh.GetSet(PANEL, "NoPadding", false)
+gui.GetSet(PANEL, "SizeToWidth", false)
+gui.GetSet(PANEL, "SizeToHeight", false)
+gui.GetSet(PANEL, "NoPadding", false)
 
 
 -- this is meant to keep the grid from rarranging due to how children are handled
@@ -124,4 +124,4 @@ function PANEL:OnDraw()
 	self:DrawHook("GridDraw")
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

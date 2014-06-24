@@ -8,30 +8,30 @@ function PANEL:__tostring()
 	return string.format("%s[%s][%i]", self.Type, self.ClassName, self.aahh_id or 0)
 end
 
-aahh.GetSet(PANEL, "Pos", Vec2())
-aahh.GetSet(PANEL, "Size", Vec2())
-aahh.GetSet(PANEL, "Padding", Rect())
-aahh.GetSet(PANEL, "Margin", Rect())
-aahh.GetSet(PANEL, "MinSize", Vec2(8,8))
-aahh.GetSet(PANEL, "TrapInsideParent", false)
-aahh.GetSet(PANEL, "TrapChildren", true)
-aahh.GetSet(PANEL, "Cursor", "arrow")
-aahh.GetSet(PANEL, "Spacing", 0)
-aahh.GetSet(PANEL, "DockPadding", 1) -- Default padding around all child panels in docking
-aahh.IsSet(PANEL, "Visible", true)
-aahh.IsSet(PANEL, "ObeyMargin", true)
-aahh.IsSet(PANEL, "IgnoreMouse", false)
-aahh.IsSet(PANEL, "AlwaysReceiveMouse", false)
-aahh.GetSet(PANEL, "Clip", true)
-aahh.GetSet(PANEL, "Offset", Vec2())
+gui.GetSet(PANEL, "Pos", Vec2())
+gui.GetSet(PANEL, "Size", Vec2())
+gui.GetSet(PANEL, "Padding", Rect())
+gui.GetSet(PANEL, "Margin", Rect())
+gui.GetSet(PANEL, "MinSize", Vec2(8,8))
+gui.GetSet(PANEL, "TrapInsideParent", false)
+gui.GetSet(PANEL, "TrapChildren", true)
+gui.GetSet(PANEL, "Cursor", "arrow")
+gui.GetSet(PANEL, "Spacing", 0)
+gui.GetSet(PANEL, "DockPadding", 1) -- Default padding around all child panels in docking
+gui.IsSet(PANEL, "Visible", true)
+gui.IsSet(PANEL, "ObeyMargin", true)
+gui.IsSet(PANEL, "IgnoreMouse", false)
+gui.IsSet(PANEL, "AlwaysReceiveMouse", false)
+gui.GetSet(PANEL, "Clip", true)
+gui.GetSet(PANEL, "Offset", Vec2())
 
-aahh.GetSet(PANEL, "Skin")
-aahh.GetSet(PANEL, "DrawBackground", true)
+gui.GetSet(PANEL, "Skin")
+gui.GetSet(PANEL, "DrawBackground", true)
 
 function PANEL:__Initialize()
 	self.Colors = {}
 	
-	self.current_skin = aahh.ActiveSkin
+	self.current_skin = gui.ActiveSkin
 	self:UpdateSkinColors()
 end
 		
@@ -47,17 +47,17 @@ do -- colors
 	
 	function PANEL:SetSkin(name)
 		self.Skin = name
-		self.current_skin = aahh.GetSkin(name)
+		self.current_skin = gui.GetSkin(name)
 	end
 	
 	function PANEL:SetSkinColor(key, val)
-		self.Colors[key] = aahh.GetSkinColor(val, self.current_skin, false)
+		self.Colors[key] = gui.GetSkinColor(val, self.current_skin, false)
 		self:UpdateSkinColors()
 	end
 	
 	function PANEL:GetSkinColor(key, def)
 		self:UpdateSkinColors()
-		return self.Colors[key] or aahh.GetSkinColor(key, self.current_skin, def)
+		return self.Colors[key] or gui.GetSkinColor(key, self.current_skin, def)
 	end	
 end
 
@@ -168,16 +168,16 @@ do -- orientation
 	end
 
 	do -- z orientation
-		aahh.FrontPanel = NULL
+		gui.FrontPanel = NULL
 		
 		function PANEL:IsInFront()
-			if self == aahh.World then return false end
-			if self == aahh.FrontPanel then return true end
+			if self == gui.World then return false end
+			if self == gui.FrontPanel then return true end
 			
 			if not self.parent_list then self:BuildParentList() end
 			
 			for _, parent in ipairs(self.parent_list) do			
-				if parent == aahh.FrontPanel then
+				if parent == gui.FrontPanel then
 					return true
 				end
 			end
@@ -186,11 +186,11 @@ do -- orientation
 		end
 
 		function PANEL:BringToFront()
-			if self == aahh.World then return end
+			if self == gui.World then return end
 			
 			if not self:IsInFront() then
 
-				aahh.FrontPanel = self
+				gui.FrontPanel = self
 
 				local parent = self:GetParent()
 				
@@ -208,14 +208,14 @@ do -- orientation
 		end
 
 		function PANEL:MakeActivePanel()
-			if aahh.ActivePanel:IsValid() then
-				aahh.ActivePanel:OnFocusLost()
+			if gui.ActivePanel:IsValid() then
+				gui.ActivePanel:OnFocusLost()
 			end
-			aahh.ActivePanel = self
+			gui.ActivePanel = self
 		end
 		
 		function PANEL:IsActivePanel()
-			return aahh.ActivePanel == self
+			return gui.ActivePanel == self
 		end
 	end
 end
@@ -251,7 +251,7 @@ do -- parenting
 	end
 	
 	function PANEL:CreatePanel(name, ...)
-		return aahh.Create(name, self, ...)
+		return gui.Create(name, self, ...)
 	end
 	
 	function PANEL:IsVisible()
@@ -604,7 +604,7 @@ function PANEL:IsWorldPosInside(a)
 end
 
 function PANEL:GetMousePos()
-	local pos = aahh.GetMousePos()
+	local pos = gui.GetMousePos()
 
 	if self:IsWorldPosInside(pos) then
 		return pos - self:GetWorldPos()
@@ -731,7 +731,7 @@ function PANEL:CalcTrap()
 			end
 		end
 		
-		if self.TrapInsideParent or parent == aahh.World then
+		if self.TrapInsideParent or parent == gui.World then
 			local psize = parent:GetSize()
 
 			self.Pos.x = math.clamp(self.Pos.x, pad, (psize.w - self.Size.w) - (pad * 2))
@@ -757,7 +757,7 @@ function PANEL:SetVisible(b)
 	end
 	
 	if self:IsInFront() then
-		aahh.FrontPanel = NULL
+		gui.FrontPanel = NULL
 	end
 end
 
@@ -796,10 +796,10 @@ function PANEL:Draw()
 		self:Animate()
 		
 		if self.Clip then
-			aahh.StartClip(self)
+			gui.StartClip(self)
 		end
 		
-		aahh.StartDraw(self)
+		gui.StartDraw(self)
 			local size = self:GetSize()
 			self:OnDraw(size)
 
@@ -810,7 +810,7 @@ function PANEL:Draw()
 			end
 			
 			self:OnPostDraw(size)
-		aahh.EndDraw(self)
+		gui.EndDraw(self)
 	end
 end
 	
@@ -821,7 +821,7 @@ function PANEL:Think()
 		self:RequestLayout(true)
 	end
 
-	local mousepos = aahh.GetMousePos()
+	local mousepos = gui.GetMousePos()
 			
 --		if self.OnMouseMove then
 		-- Check if the mouse has moved
@@ -840,10 +840,10 @@ function PANEL:Think()
 					self.mouse_entered = true
 				end
 				
-				aahh.HoveringPanel = self
+				gui.HoveringPanel = self
 			else
-				if aahh.HoveringPanel == self then
-					aahh.HoveringPanel = NULL
+				if gui.HoveringPanel == self then
+					gui.HoveringPanel = NULL
 				end
 				
 				self:OnMouseMove(localpos, false)
@@ -948,7 +948,7 @@ do -- events
 	
 	function PANEL:Remove(now)			
 		if not self.remove_me then
-			table.insert(aahh.remove_these, self)
+			table.insert(gui.remove_these, self)
 			self.remove_me = true
 		end
 		
@@ -960,9 +960,9 @@ do -- events
 				self:GetParent():UnparentChild(self)
 			end
 			
-			for k,v in pairs(aahh.active_panels) do
+			for k,v in pairs(gui.active_panels) do
 				if v == self then
-					table.remove(aahh.active_panels, k)
+					table.remove(gui.active_panels, k)
 					break
 				end
 			end
@@ -982,7 +982,7 @@ do -- events
 	function PANEL:OnMouseMove() end
 end
 
-aahh.Stats = 
+gui.Stats = 
 {
 	layout_count = 0
 }
@@ -1012,9 +1012,9 @@ function PANEL:RequestLayout(now)
 	
 	self:CalcTrap()
 	
-	aahh.Stats.layout_count = aahh.Stats.layout_count + 1
+	gui.Stats.layout_count = gui.Stats.layout_count + 1
 	
-	if self:HasParent() or self == aahh.World then 
+	if self:HasParent() or self == gui.World then 
 		self:OnRequestLayout(self.Parent, self:GetSize())
 	end
 
@@ -1030,19 +1030,19 @@ function PANEL:RequestParentLayout(...)
 end
 
 function PANEL:SkinCall(func_name, ...)
-	return aahh.SkinCall(self, func_name, self.current_skin, ...)
+	return gui.SkinCall(self, func_name, self.current_skin, ...)
 end
 
 function PANEL:DrawHook(func_name, ...)
-	return aahh.SkinDrawHook(self, func_name, self.current_skin, ...)
+	return gui.SkinDrawHook(self, func_name, self.current_skin, ...)
 end
 
 function PANEL:LayoutHook(func_name, ...)
-	return aahh.SkinLayoutHook(self, func_name, self.current_skin, ...)
+	return gui.SkinLayoutHook(self, func_name, self.current_skin, ...)
 end
 
 function PANEL:GetSkinVar(key, def)
-	return aahh.GetSkinVar(key, self.current_skin) or def
+	return gui.GetSkinVar(key, self.current_skin) or def
 end
 
 function PANEL:OnKeyInput(key, press) end
@@ -1057,4 +1057,4 @@ function PANEL:OnRequestLayout() end
 function PANEL:OnRemove() end
 function PANEL:OnFocusLost() end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

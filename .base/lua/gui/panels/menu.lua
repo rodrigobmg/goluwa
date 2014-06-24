@@ -4,8 +4,8 @@ PANEL.ClassName = "menuitem"
 PANEL.Base = "button"
 
 function PANEL:Initialize()
-	self.lbl = aahh.Create("label", self)
-	self.img = aahh.Create("image", self)
+	self.lbl = gui.Create("label", self)
+	self.img = gui.Create("image", self)
 	self.img:SetResizePanelWithImage(true)
 	-- self.img:SetIgnoreMouse(true)
 	self.button_down = {}
@@ -27,17 +27,17 @@ function PANEL:OnRequestLayout()
 	self:LayoutHook("MenuItemLayout")
 end
  
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)
  
 local PANEL = {}
 
 PANEL.ClassName = "context"
 PANEL.Base = "grid"
 
-aahh.GetSet(PANEL, "IconSize", Vec2(16, 16))
+gui.GetSet(PANEL, "IconSize", Vec2(16, 16))
 
 function PANEL:Initialize()
-	self:SetPos(aahh.GetMousePos())
+	self:SetPos(gui.GetMousePos())
 
 	self:SetStackRight(false)
 	self:SetSizeToWidth(false)
@@ -53,7 +53,7 @@ function PANEL:SetIconSize(siz)
 end
 
 function PANEL:AddOption(icon, str, callback)
-	local itm = aahh.Create("menuitem", self)
+	local itm = gui.Create("menuitem", self)
 	itm:SetText(str)
 	itm:SetTexture(icon)
 	itm.img:SetSize(self.IconSize)
@@ -64,7 +64,7 @@ function PANEL:AddOption(icon, str, callback)
 end
 
 function PANEL:AddSpace()
-	local itm = aahh.Create("panel", self)
+	local itm = gui.Create("panel", self)
 	itm:SetHeight(5)
 	itm.OnDraw = function(s) s:DrawHook("ContextSpaceDraw", self) end
 	self:RequestLayout(true)
@@ -78,4 +78,4 @@ function PANEL:OnDraw()
 	self:DrawHook("ContextDraw")
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

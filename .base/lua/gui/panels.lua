@@ -1,6 +1,6 @@
-function aahh.Create(name, parent, pos)
+function gui.Create(name, parent, pos)
 	if name ~= "base" and (not parent or not parent:IsValid()) then
-		parent = aahh.GetWorld()
+		parent = gui.GetWorld()
 	end
 	
 	local pnl = class.Create("panel", name, "base")
@@ -11,8 +11,8 @@ function aahh.Create(name, parent, pos)
 		pnl:__Initialize()
 	end
 	
-	table.insert(aahh.active_panels, 1, pnl)
-	pnl.aahh_id = #aahh.active_panels
+	table.insert(gui.active_panels, 1, pnl)
+	pnl.aahh_id = #gui.active_panels
 	
 	if pnl.Initialize then
 		pnl:Initialize()
@@ -23,13 +23,13 @@ function aahh.Create(name, parent, pos)
 	return pnl, pnl:SetParent(parent, pos)
 end
 
-function aahh.RegisterPanel(META, name)
+function gui.RegisterPanel(META, name)
 	META.TypeBase = "base"
 	local _, name = class.Register(META, "panel", name)
 	
 	-- update entity functions only
 	-- updating variables might mess things up
-	for key, pnl in pairs(aahh.active_panels) do
+	for key, pnl in pairs(gui.active_panels) do
 		if pnl.ClassName == name then
 			for k, v in pairs(META) do
 				if type(v) == "function" then
@@ -39,39 +39,39 @@ function aahh.RegisterPanel(META, name)
 		end
 	end	
 	
-	aahh["Create" .. ("_" .. name):gsub("_(.)", string.upper)] = function(...)
-		return aahh.Create(name, ...)
+	gui["Create" .. ("_" .. name):gsub("_(.)", string.upper)] = function(...)
+		return gui.Create(name, ...)
 	end
 end
 
-function aahh.GetRegisteredPanels()
+function gui.GetRegisteredPanels()
 	return class.GetAll("panel")
 end
 
-function aahh.GetPanel(name)
+function gui.GetPanel(name)
 	return class.Get("panel", name)
 end
 
-function aahh.GetPanels()
-	for key, pnl in pairs(aahh.active_panels) do
+function gui.GetPanels()
+	for key, pnl in pairs(gui.active_panels) do
 		if not pnl:IsValid() then
-			aahh.active_panels[key] = nil
+			gui.active_panels[key] = nil
 		end
 	end
-	return aahh.active_panels
+	return gui.active_panels
 end
 
-function aahh.RemoveAllPanels()
-	for key, pnl in pairs(aahh.GetPanels()) do
+function gui.RemoveAllPanels()
+	for key, pnl in pairs(gui.GetPanels()) do
 		if pnl:IsValid() then
 			pnl:Remove()
 		end
 	end
-	aahh.active_panels = {}
+	gui.active_panels = {}
 end
 
-function aahh.CallPanelHook(name, ...)
-	for key, pnl in pairs(aahh.GetPanels()) do
+function gui.CallPanelHook(name, ...)
+	for key, pnl in pairs(gui.GetPanels()) do
 		if pnl[name] then
 			pnl[name](pnl, ...)
 		end

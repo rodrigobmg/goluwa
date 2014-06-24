@@ -1,14 +1,14 @@
 do
-	function aahh.GetScreenSize()
+	function gui.GetScreenSize()
 		return Vec2(surface.GetScreenSize())
 	end
 
-	function aahh.GetTextSize(font, str)
+	function gui.GetTextSize(font, str)
 		surface.SetFont(font)		
 		return Vec2(surface.GetTextSize(str))
 	end	
 		
-	function aahh.SetCursor(id)
+	function gui.SetCursor(id)
 		system.SetCursor(id)
 	end
 	
@@ -54,7 +54,7 @@ do
 			surface.SetColor(color:Unpack())
 			surface.DrawText(text)
 			
-			if aahh.debug then			
+			if gui.debug then			
 				surface.SetColor(1,0,0,0.25)
 				surface.SetWhiteTexture()
 				local w, h = surface.GetTextSize(text)
@@ -76,7 +76,7 @@ do
 		end,
 	}
 
-	function aahh.Draw(type, ...)
+	function gui.Draw(type, ...)
 		if shapes[type] then
 			shapes[type](...)
 		else
@@ -84,14 +84,14 @@ do
 		end
 	end
 
-	function aahh.StartDraw(pnl, clip)
+	function gui.StartDraw(pnl, clip)
 		if pnl.NoMatrix then return end
 		
 		local x, y = pnl:GetPos():Unpack()
 						
 		surface.PushMatrix(x, y)
 				
-		if aahh.debug then
+		if gui.debug then
 			if pnl.ClassName == "text_button" then 
 				surface.SetColor(1,1,0,1)
 			else
@@ -101,15 +101,15 @@ do
 		end
 	end
 
-	function aahh.EndDraw(pnl, clip)	
+	function gui.EndDraw(pnl, clip)	
 		if pnl.NoMatrix then return end
 		surface.PopMatrix()
 	end
 	
 	-- i'm not sure what i'm doing here..
 	
-	function aahh.StartClip(pnl)		
-		if aahh.noclip then return end
+	function gui.StartClip(pnl)		
+		if gui.noclip then return end
 		if pnl:HasParent() then	
 			local offset = pnl.Parent:GetOffset()
 			local siz = pnl.Parent:GetSize()
@@ -127,21 +127,21 @@ do
 		end
 	end
 	
-	function aahh.EndClip()
-		if aahh.noclip then return end
+	function gui.EndClip()
+		if gui.noclip then return end
 		surface.EndClipping()
 	end
 end
 
-aahh.remove_these = aahh.remove_these or {}
+gui.remove_these = gui.remove_these or {}
 
-function aahh.Update(delta)
-	for key, pnl in pairs(aahh.remove_these) do
+function gui.Update(delta)
+	for key, pnl in pairs(gui.remove_these) do
 		pnl:Remove(true)
-		aahh.remove_these[key] = nil
+		gui.remove_these[key] = nil
 	end
 
-	if aahh.ActivePanel:IsValid() then
+	if gui.ActivePanel:IsValid() then
 		input.DisableFocus = true
 	else
 		input.DisableFocus = false
@@ -150,23 +150,23 @@ function aahh.Update(delta)
 	event.Call("DrawHUD", delta)
 	
 	event.Call("PreDrawMenu", delta)
-		if aahh.ActiveSkin:IsValid() then
-			aahh.ActiveSkin.FT = delta
-			aahh.ActiveSkin:Think(delta)
+		if gui.ActiveSkin:IsValid() then
+			gui.ActiveSkin.FT = delta
+			gui.ActiveSkin:Think(delta)
 		end
 		
-		if aahh.World:IsValid() then
-			aahh.World:Draw()
+		if gui.World:IsValid() then
+			gui.World:Draw()
 		end
 		
-		aahh.EndClip()
+		gui.EndClip()
 		
-		if aahh.HoveringPanel:IsValid() then
-			aahh.SetCursor(aahh.HoveringPanel:GetCursor())
+		if gui.HoveringPanel:IsValid() then
+			gui.SetCursor(gui.HoveringPanel:GetCursor())
 		else
-			aahh.SetCursor("arrow")
+			gui.SetCursor("arrow")
 		end
 	event.Call("PostDrawMenu", delta)
 end
 
-event.AddListener("Draw2D", "aahh", aahh.Update)
+event.AddListener("Draw2D", "gui", gui.Update)

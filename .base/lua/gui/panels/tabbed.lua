@@ -7,11 +7,11 @@ do -- button
 	function PANEL:Initialize()
 		self.BaseClass.Initialize(self)
 		
-		self.lbl = aahh.Create("label", self)
+		self.lbl = gui.Create("label", self)
 		self.lbl:SetIgnoreMouse(true)
 		self.lbl:SetAlignNormal(e.ALIGN_CENTERY)
 			
-		self.img = aahh.Create("image", self)
+		self.img = gui.Create("image", self)
 		self.img:SetTexture(Texture("textures/gui/heart.png"))
 		self.img:SetIgnoreMouse(true)
 
@@ -60,7 +60,7 @@ do -- button
 		self:LayoutHook("TabBarButtonLayout")
 	end
 
-	aahh.RegisterPanel(PANEL)
+	gui.RegisterPanel(PANEL)
 
 end
 
@@ -71,7 +71,7 @@ do -- bar
 	PANEL.ClassName = "tab_bar"
 
 	function PANEL:Initialize()
-		local bar = aahh.Create("grid", self)
+		local bar = gui.Create("grid", self)
 		
 		bar:SetSpacing(Vec2())
 		bar:SetSizeToHeight(true)
@@ -113,13 +113,13 @@ do -- bar
 
 	function PANEL:AddTab(title, fill_pnl)
 		
-		local btn = aahh.Create("tab_bar_button", self.bar)
+		local btn = gui.Create("tab_bar_button", self.bar)
 			btn:SetText(title)
 			btn.OnPress = function() 
 				self:SelectTab(title) 
 			end
 			
-		local pnl = aahh.Create("panel", self)
+		local pnl = gui.Create("panel", self)
 			pnl.tabbutton = btn
 			pnl:SetVisible(false)
 			pnl.OnRemove = function() 
@@ -139,5 +139,5 @@ do -- bar
 		return pnl
 	end
 
-	aahh.RegisterPanel(PANEL)
+	gui.RegisterPanel(PANEL)
 end

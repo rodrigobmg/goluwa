@@ -1,9 +1,9 @@
-aahh.Skins = {}
+gui.Skins = {}
 
-aahh.ActiveSkin = NULL
+gui.ActiveSkin = NULL
 
-function aahh.SkinCall(pnl, func_name, skin, ...)
-	skin = skin or aahh.ActiveSkin
+function gui.SkinCall(pnl, func_name, skin, ...)
+	skin = skin or gui.ActiveSkin
 	
 	local func = skin[func_name]
 
@@ -12,8 +12,8 @@ function aahh.SkinCall(pnl, func_name, skin, ...)
 	end
 end
 
-function aahh.SkinDrawHook(pnl, func_name, skin, ...)
-	skin = skin or aahh.ActiveSkin
+function gui.SkinDrawHook(pnl, func_name, skin, ...)
+	skin = skin or gui.ActiveSkin
 
 	local func = skin[func_name]
 
@@ -24,8 +24,8 @@ function aahh.SkinDrawHook(pnl, func_name, skin, ...)
 	end
 end
 
-function aahh.SkinLayoutHook(pnl, func_name, skin, ...)
-	skin = skin or aahh.ActiveSkin
+function gui.SkinLayoutHook(pnl, func_name, skin, ...)
+	skin = skin or gui.ActiveSkin
 
 	local func = skin[func_name]
 
@@ -36,20 +36,20 @@ function aahh.SkinLayoutHook(pnl, func_name, skin, ...)
 	end
 end
 
-function aahh.GetSkinVar(key, skin)
-	skin = skin or aahh.ActiveSkin
+function gui.GetSkinVar(key, skin)
+	skin = skin or gui.ActiveSkin
 
 	return skin[key]
 end
 
-function aahh.GetSkinColor(key, skin, def)
-	skin = skin or aahh.ActiveSkin
+function gui.GetSkinColor(key, skin, def)
+	skin = skin or gui.ActiveSkin
 
 	return skin.Colors[key] or def or skin.Colors.medium
 end
 
 do -- skins
-	function aahh.UseSkin(name)
+	function gui.UseSkin(name)
 		local skin = class.Create("skin", name)
 		
 		skin.IsValid = function() return true end
@@ -57,29 +57,29 @@ do -- skins
 		skin.DefaultDraw = skin.DrawDefault or function(panel) end
 		skin.DefaultLayout = skin.LayoutDefault or function(panel) end
 
-		aahh.ActiveSkin = skin
+		gui.ActiveSkin = skin
 
 		if skin.Initialize then
 			skin:Initialize()
 		end
 		
-		for k,v in pairs(aahh.active_panels) do
+		for k,v in pairs(gui.active_panels) do
 			if v.current_skin and v.current_skin.ClassName == name then
 				v.current_skin = skin
 			end
 		end
 		
-		if aahh.World:IsValid() then
-			aahh.World:RequestLayout()
+		if gui.World:IsValid() then
+			gui.World:RequestLayout()
 		end
 	end
 
-	function aahh.RegisterSkin(META, name)
+	function gui.RegisterSkin(META, name)
 		local _, name = class.Register(META, "skin", name)
-		aahh.UseSkin(name)
+		gui.UseSkin(name)
 	end
 
-	function aahh.GetSkin(name)
+	function gui.GetSkin(name)
 		return class.Get("skin", name)
 	end
 end

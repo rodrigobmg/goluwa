@@ -2,15 +2,15 @@ local PANEL = {}
 
 PANEL.ClassName = "slider"
 
-aahh.GetSet(PANEL, "DragPos", Vec2())
-aahh.GetSet(PANEL, "LockX", false)
-aahh.GetSet(PANEL, "LockY", false)
+gui.GetSet(PANEL, "DragPos", Vec2())
+gui.GetSet(PANEL, "LockX", false)
+gui.GetSet(PANEL, "LockY", false)
 
 
 function PANEL:Initialize()
 	self.DragPos = Vec2()
 	
-	local drag = aahh.Create("draggable", self)
+	local drag = gui.Create("draggable", self)
 	
 	drag:SetTrapInsideParent(true)
 	drag:SetObeyMargin(false)
@@ -26,7 +26,7 @@ function PANEL:Initialize()
 	end 
 	
 	drag.OnDraw = function(s)
-		aahh.Draw("rect", 
+		gui.Draw("rect", 
 			Rect(Vec2(0,0), Vec2(0, 0) + s:GetHeight()),
 			self:GetSkinColor("light2"),
 			s:GetHeight() / 2
@@ -37,7 +37,7 @@ function PANEL:Initialize()
 end
 
 function PANEL:OnDraw(size)
-	aahh.Draw("rect", Rect(0,0,size), self:GetSkinColor("dark"), self:GetHeight() / 2)
+	gui.Draw("rect", Rect(0,0,size), self:GetSkinColor("dark"), self:GetHeight() / 2)
 end
 
 function PANEL:OnRequestLayout()
@@ -87,24 +87,24 @@ function PANEL:OnDrag(pos)
 
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)
 
 do -- label slider
 	local PANEL = {}
 	
 	PANEL.ClassName = "labeled_slider"
 	
-	aahh.GetSet(PANEL, "Min", 0)
-	aahh.GetSet(PANEL, "Max", 100)
-	aahh.GetSet(PANEL, "Rounding", 0)
-	aahh.GetSet(PANEL, "Value", 0)
+	gui.GetSet(PANEL, "Min", 0)
+	gui.GetSet(PANEL, "Max", 100)
+	gui.GetSet(PANEL, "Rounding", 0)
+	gui.GetSet(PANEL, "Value", 0)
 	
 	function PANEL:Initialize()
-		local lbl = aahh.Create("label", self)
+		local lbl = gui.Create("label", self)
 		lbl:SetText("nothing")
 		self.left_label = lbl
 		
-		local sld = aahh.Create("slider", self)
+		local sld = gui.Create("slider", self)
 		sld:SetLockY(true)
 		sld.OnDrag = function(_, pos)
 			local val = pos.x
@@ -119,7 +119,7 @@ do -- label slider
 		end
 		self.slider = sld
 		
-		local lbl = aahh.Create("label", self)
+		local lbl = gui.Create("label", self)
 		self.right_label = lbl
 	end
 	
@@ -155,5 +155,5 @@ do -- label slider
 	
 	end
 	
-	aahh.RegisterPanel(PANEL)
+	gui.RegisterPanel(PANEL)
 end
