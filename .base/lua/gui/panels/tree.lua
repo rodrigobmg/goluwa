@@ -93,7 +93,7 @@ do -- tree node
 		self:DrawHook("TreeNodeDraw")
 	end
 		
-	aahh.RegisterPanel(PANEL)
+	gui.RegisterPanel(PANEL)
 end
 
 
@@ -145,4 +145,4 @@ function PANEL:RemovePanel(pnl)
 	self:RequestLayout()
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

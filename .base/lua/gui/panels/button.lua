@@ -25,7 +25,7 @@ function PANEL:OnMouseInput(key, press)
 end
 
 function PANEL:IsDown()
-	if self.is_down and not aahh.IsMouseDown("button_1") then
+	if self.is_down and not gui.IsMouseDown("button_1") then
 		self.is_down = false
 	end
 	
@@ -33,7 +33,7 @@ function PANEL:IsDown()
 end
 
 function PANEL:IsMouseOver()
-	return self:IsWorldPosInside(aahh.GetMousePos())
+	return self:IsWorldPosInside(gui.GetMousePos())
 end
 
 function PANEL:OnOtherKeyPress(key) end
@@ -48,4 +48,4 @@ function PANEL:OnRequestLayout()
 	self:LayoutHook("ButtonLayout")
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

@@ -3,7 +3,7 @@ local PANEL = {}
 PANEL.ClassName = "frame"
 PANEL.Base = "draggable"
 
-aahh.GetSet(PANEL, "Title", "no title")
+gui.GetSet(PANEL, "Title", "no title")
 
 PANEL.close = NULL
 PANEL.title = NULL
@@ -23,7 +23,7 @@ end
 
 function PANEL:Initialize()
 	-- close button
-	self.close = aahh.Create("button", self)
+	self.close = gui.Create("button", self)
 		self.close.OnPress = function()
 			self:SetDraggingAllowed(false)
 			self:OnClose()
@@ -32,7 +32,7 @@ function PANEL:Initialize()
 	self.close.OnDraw = function(self) self:DrawHook("FrameCloseButtonDraw") end
 	
 	-- title
-	self.title = aahh.Create("label", self)
+	self.title = gui.Create("label", self)
 	self.title:SetText(self.Title)
 	self.title:SizeToText()
 	self.title:SetAlignNormal(e.ALIGN_CENTERY)
@@ -56,4 +56,4 @@ function PANEL:OnRequestLayout()
 	self:LayoutHook("FrameLayout")
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

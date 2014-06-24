@@ -6,4 +6,4 @@ function PANEL:OnDraw()
 	self:DrawHook("PanelDraw")
 end
 
-aahh.RegisterPanel(PANEL, "panel")
+gui.RegisterPanel(PANEL, "panel")

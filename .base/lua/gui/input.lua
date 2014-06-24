@@ -1,36 +1,36 @@
 
 do -- events
-	function aahh.GetMousePos()
+	function gui.GetMousePos()
 		return window.GetMousePos()
 	end
 	
-	function aahh.IsMouseDown(button)
+	function gui.IsMouseDown(button)
 		return input.IsMouseDown(button)
 	end
 
-	event.AddListener("KeyInputRepeat", "aahh", function(key, press)
-		aahh.KeyInput(key, press)
+	event.AddListener("KeyInputRepeat", "gui", function(key, press)
+		gui.KeyInput(key, press)
 	end, {on_error = system.OnError})
 	
-	event.AddListener("CharInput", "aahh", function(char)
-		aahh.CharInput(char, true)
+	event.AddListener("CharInput", "gui", function(char)
+		gui.CharInput(char, true)
 	end, {on_error = system.OnError})
 
-	event.AddListener("MouseInput", "aahh", function(key, press)
-		aahh.MouseInput(key, press, aahh.GetMousePos())
+	event.AddListener("MouseInput", "gui", function(key, press)
+		gui.MouseInput(key, press, gui.GetMousePos())
 	end, {on_error = system.OnError})
 end
 
-function aahh.CallEvent(pnl, name, ...)
-	pnl = pnl or aahh.World
+function gui.CallEvent(pnl, name, ...)
+	pnl = pnl or gui.World
 	
 	return pnl:CallEvent(name, ...)
 end
 
-function aahh.MouseInput(key, press, pos)
+function gui.MouseInput(key, press, pos)
 	local tbl = {}
 	
-	for _, pnl in pairs(aahh.GetPanels()) do
+	for _, pnl in pairs(gui.GetPanels()) do
 		if not pnl.IgnoreMouse and pnl:IsWorldPosInside(pos) and pnl:IsVisible() then
 			
 			if pnl.AlwaysReceiveMouse then
@@ -53,11 +53,11 @@ function aahh.MouseInput(key, press, pos)
 	end
 end
 
-function aahh.KeyInput(key, press)
-	return aahh.CallEvent(aahh.World, "KeyInput", key, press)
+function gui.KeyInput(key, press)
+	return gui.CallEvent(gui.World, "KeyInput", key, press)
 end
 
-function aahh.CharInput(key, press)
-	return aahh.CallEvent(aahh.World, "CharInput", key, press)
+function gui.CharInput(key, press)
+	return gui.CallEvent(gui.World, "CharInput", key, press)
 end
  

@@ -56,4 +56,4 @@ function PANEL:OnMouseMove(pos, inside)
 	end
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

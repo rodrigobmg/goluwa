@@ -2,19 +2,19 @@ local PANEL = {}
 
 PANEL.ClassName = "label"
 
-aahh.GetSet(PANEL, "Text", "")
+gui.GetSet(PANEL, "Text", "")
 
-aahh.GetSet(PANEL, "ShadowDir")
-aahh.GetSet(PANEL, "ShadowBlur")
-aahh.GetSet(PANEL, "ShadowSize")
+gui.GetSet(PANEL, "ShadowDir")
+gui.GetSet(PANEL, "ShadowBlur")
+gui.GetSet(PANEL, "ShadowSize")
 
-aahh.GetSet(PANEL, "TextOffset", Vec2(0,0))
-aahh.GetSet(PANEL, "AlignNormal", e.ALIGN_CENTERY)
+gui.GetSet(PANEL, "TextOffset", Vec2(0,0))
+gui.GetSet(PANEL, "AlignNormal", e.ALIGN_CENTERY)
 
-aahh.GetSet(PANEL, "ResizeTextWithPanel", true)
-aahh.GetSet(PANEL, "IgnoreMouse", true)
+gui.GetSet(PANEL, "ResizeTextWithPanel", true)
+gui.GetSet(PANEL, "IgnoreMouse", true)
 
-aahh.GetSet(PANEL, "Font", "default")
+gui.GetSet(PANEL, "Font", "default")
 
 function PANEL:SetFont(font)
 	self.Font = font
@@ -50,12 +50,12 @@ function PANEL:OnRequestLayout()
 end
 
 event.AddListener("FontChanged", "aahh_font_change", function(name, info)
-	for k,v in pairs(aahh.active_panels) do
+	for k,v in pairs(gui.active_panels) do
 		if v.Font == name then
-			aahh.World:RequestLayout()
+			gui.World:RequestLayout()
 			break
 		end
 	end
 end)
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

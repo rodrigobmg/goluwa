@@ -3,10 +3,10 @@ local PANEL = {}
 PANEL.Base = "grid"
 PANEL.ClassName = "container"
 
-aahh.GetSet(PANEL, "Collapse", false)
+gui.GetSet(PANEL, "Collapse", false)
 
 function PANEL:Initialize()
-	self.btn = aahh.Create("text_button", self)
+	self.btn = gui.Create("text_button", self)
 	self.btn.OnPress = function()
 		self:SetCollapse(not self.Collapse)
 	end
@@ -29,4 +29,4 @@ function PANEL:SetText(...)
 	self.btn:SetText(...)
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

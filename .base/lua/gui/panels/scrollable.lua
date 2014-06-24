@@ -2,11 +2,11 @@ local PANEL = {}
 
 PANEL.ClassName = "scrollable"
 
-aahh.GetSet(PANEL, "ScrollHeight", 50)
-aahh.GetSet(PANEL, "ScrollWidth", 50)
-aahh.GetSet(PANEL, "YScroll", true)
-aahh.GetSet(PANEL, "XScroll", true)
-aahh.GetSet(PANEL, "ScrollFraction", Vec2())
+gui.GetSet(PANEL, "ScrollHeight", 50)
+gui.GetSet(PANEL, "ScrollWidth", 50)
+gui.GetSet(PANEL, "YScroll", true)
+gui.GetSet(PANEL, "XScroll", true)
+gui.GetSet(PANEL, "ScrollFraction", Vec2())
 
 function PANEL:Initialize()	
 	self:SetTrapChildren(false)
@@ -27,7 +27,7 @@ end
 
 function PANEL:OnMouseMove(pos, inside)	
 	if self.start_mpos then
-		if aahh.IsMouseDown("button_1") then
+		if gui.IsMouseDown("button_1") then
 			
 			local diff = pos - self.start_mpos	
 		
@@ -72,7 +72,7 @@ function PANEL:SetYScroll(b)
 	if b then
 		if self.y_bar:IsValid() then self.y_bar:Remove() end
 		
-		local pnl = aahh.Create("button", self)
+		local pnl = gui.Create("button", self)
 		
 		pnl:SetCursor("arrow")
 		pnl:SetTrapInsideParent(false)
@@ -106,7 +106,7 @@ function PANEL:SetXScroll(b)
 	if b then
 		if self.x_bar:IsValid() then self.x_bar:Remove() end
 		
-		local pnl = aahh.Create("button", self)
+		local pnl = gui.Create("button", self)
 		
 		pnl:SetCursor("arrow")
 		pnl:SetTrapInsideParent(false)
@@ -219,4 +219,4 @@ function PANEL:OnMouseInput(key, press)
 	end
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

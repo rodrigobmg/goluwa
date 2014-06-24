@@ -2,15 +2,15 @@ local PANEL = {}
 
 PANEL.ClassName = "image"
 
-aahh.GetSet(PANEL, "Texture", NULL)
-aahh.GetSet(PANEL, "UV")
-aahh.GetSet(PANEL, "Color")
-aahh.GetSet(PANEL, "Scale", Vec2(1,1))
-aahh.GetSet(PANEL, "Filter", true)
-aahh.GetSet(PANEL, "ResizePanelWithImage", true)
+gui.GetSet(PANEL, "Texture", NULL)
+gui.GetSet(PANEL, "UV")
+gui.GetSet(PANEL, "Color")
+gui.GetSet(PANEL, "Scale", Vec2(1,1))
+gui.GetSet(PANEL, "Filter", true)
+gui.GetSet(PANEL, "ResizePanelWithImage", true)
 
 function PANEL:Initialize()
-	self.Texture = Texture("textures/aahh/pac.png")
+	self.Texture = Texture("textures/gui/pac.png")
 end
 
 function PANEL:SizeToContent()
@@ -39,4 +39,4 @@ function PANEL:OnRequestLayout()
 	end
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

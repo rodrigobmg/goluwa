@@ -12,35 +12,35 @@ PANEL.Base = "panel"
 
 -- If true, text will not extend past the rightmost edge. Instead it will be cut and the end
 --  piece will be moved to the next line.
-aahh.GetSet(PANEL, "Wrap", true)
+gui.GetSet(PANEL, "Wrap", true)
 
 -- If true,  it will wrap by word (spaces define breaking points)
 -- If false, it will wrap by letter
-aahh.GetSet(PANEL, "ByWord", true) -- "true" for word-warpping, "false" for letter-wrapping
+gui.GetSet(PANEL, "ByWord", true) -- "true" for word-warpping, "false" for letter-wrapping
 
 -- Colors for interchanging lines
-aahh.GetSet(PANEL, "ColorA", Color(0.1, 0.1, 0.1, 1))
-aahh.GetSet(PANEL, "ColorB", Color(0.15, 0.15, 0.15, 1))
+gui.GetSet(PANEL, "ColorA", Color(0.1, 0.1, 0.1, 1))
+gui.GetSet(PANEL, "ColorB", Color(0.15, 0.15, 0.15, 1))
 
 -- Minimum and Maximum line heights
-aahh.GetSet(PANEL, "MinLineHeight", 10)
-aahh.GetSet(PANEL, "MaxLineHeight", 60)
+gui.GetSet(PANEL, "MinLineHeight", 10)
+gui.GetSet(PANEL, "MaxLineHeight", 60)
 
 -- Enable / Disable scroll bars
-aahh.GetSet(PANEL, "XScroll", false)
-aahh.GetSet(PANEL, "YScroll", true)
+gui.GetSet(PANEL, "XScroll", false)
+gui.GetSet(PANEL, "YScroll", true)
 
 -- Maximum number of elements
-aahh.GetSet(PANEL, "MaxElements", 10000)
+gui.GetSet(PANEL, "MaxElements", 10000)
 
 -- The margin the lines are forced to follow
-aahh.GetSet(PANEL, "LineMargin")
+gui.GetSet(PANEL, "LineMargin")
 
 -- If true, the view will keep up with the last line unless the view is moved upwards
-aahh.GetSet(PANEL, "StayOnBottom", true)
+gui.GetSet(PANEL, "StayOnBottom", true)
 
 -- If true, scrolling space will exist underneath the last line.
-aahh.GetSet(PANEL, "SpaceBeneath", false)
+gui.GetSet(PANEL, "SpaceBeneath", false)
 
 function PANEL:Initialize()
 	
@@ -306,7 +306,7 @@ codes["#%i"] = function() end
 ----------------------------------------------------------------------------------------------------
 
 function PANEL:GetTextSize(font, fontsize, text)
-	return aahh.GetTextSize(font, text) * Vec2(1, 1)
+	return gui.GetTextSize(font, text) * Vec2(1, 1)
 end
 
 
@@ -932,7 +932,7 @@ end
 function PANEL:OnDraw()
 	
 	if self:GetDrawBackground() then
-		aahh.Draw("rect", Rect(0, 0, self:GetWidth(), self:GetHeight()), Color(0.1, 0.1, 0.1, 1))
+		gui.Draw("rect", Rect(0, 0, self:GetWidth(), self:GetHeight()), Color(0.1, 0.1, 0.1, 1))
 	end
 	
 	local linedrew = false
@@ -967,12 +967,12 @@ function PANEL:DrawXScrollbar()
 end
 
 function PANEL:DrawYScrollbar()
-	aahh.Draw("rect", self.ybar, Color(1, 1, 1, 0.35 + (self.ybarhighlight and 0.2 or 0)))
+	gui.Draw("rect", self.ybar, Color(1, 1, 1, 0.35 + (self.ybarhighlight and 0.2 or 0)))
 end
 
 function PANEL:DrawLine(line)
 	if line.visible and self:GetDrawBackground() then --and #line.children > 0 then
-		aahh.Draw("rect", line.rect-Rect(self.viewx, self.viewy, 0, 0), line.color)
+		gui.Draw("rect", line.rect-Rect(self.viewx, self.viewy, 0, 0), line.color)
 	end
 end
 
@@ -981,11 +981,11 @@ local testfont = surface.CreateFont("um", {path = R("fonts/tahoma.ttf")})
 function PANEL:DrawText(element)
 	
 	if element.struct.bgcolor then
-		aahh.Draw("rect", element.rect-Rect(self.viewx, self.viewy, 0, 0), element.struct.bgcolor)
+		gui.Draw("rect", element.rect-Rect(self.viewx, self.viewy, 0, 0), element.struct.bgcolor)
 	end
 	
 	--local center = element.rect:GetPos() + element.rect:GetSize()/2
-	--aahh.DrawText(element.text, center, "default", 12, Color(1, 1, 1, 1))
+	--gui.DrawText(element.text, center, "default", 12, Color(1, 1, 1, 1))
 	
 	--do return end
 	
@@ -1018,5 +1018,5 @@ function PANEL:DrawPanel(pnl)
 	
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)
 

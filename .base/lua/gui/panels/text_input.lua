@@ -114,4 +114,4 @@ function PANEL:SizeToContents()
 	self:SetSize(Vec2(self:GetWidth(), self.markup.height))
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

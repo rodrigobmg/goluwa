@@ -1,31 +1,31 @@
-aahh = {}
+gui = {}
 
-aahh.active_panels = aahh.active_panels or {}
-aahh.ActivePanel = NULL
-aahh.HoveringPanel = NULL
-aahh.World = NULL
+gui.active_panels = gui.active_panels or {}
+gui.ActivePanel = NULL
+gui.HoveringPanel = NULL
+gui.World = NULL
 
-function aahh.Initialize()
-	aahh.UseSkin("default")
+function gui.Initialize()
+	gui.UseSkin("default")
 	
-	aahh.World = aahh.GetWorld()
+	gui.World = gui.GetWorld()
 	
-	aahh.initialized = true
+	gui.initialized = true
 	
 	event.AddListener("WindowFramebufferResized", "aahh_world", function(window, w,h)
-		aahh.World:RequestLayout()
+		gui.World:RequestLayout()
 	end)
 	
-	aahh.World:RequestLayout()
+	gui.World:RequestLayout()
 end
  
-function aahh.GetWorld()
-	if not aahh.World:IsValid() then
-		local WORLD = aahh.Create("base")
+function gui.GetWorld()
+	if not gui.World:IsValid() then
+		local WORLD = gui.Create("base")
 		WORLD:SetMargin(Rect()+5)
 		
 		function WORLD:GetSize()
-			self.Size = aahh.GetScreenSize()
+			self.Size = gui.GetScreenSize()
 			return self.Size
 		end
 		
@@ -40,16 +40,16 @@ function aahh.GetWorld()
 		
 		WORLD:SetCursor("arrow")
 		
-		aahh.World = WORLD
+		gui.World = WORLD
 	end
 	
-	return aahh.World
+	return gui.World
 end
 
  
-aahh.IsSet = class.IsSet
+gui.IsSet = class.IsSet
 
-function aahh.GetSet(PANEL, name, var, ...) 
+function gui.GetSet(PANEL, name, var, ...) 
 	class.GetSet(PANEL, name, var, ...)
 	if name:find("Color") then
 		PANEL["Set" .. name] = function(self, color) 
@@ -58,15 +58,15 @@ function aahh.GetSet(PANEL, name, var, ...)
 	end
 end
 
-function aahh.Panic()
-	for key, pnl in pairs(aahh.active_panels) do
+function gui.Panic()
+	for key, pnl in pairs(gui.active_panels) do
 		pnl:Remove()
 	end
 
-	aahh.active_panels = {}
+	gui.active_panels = {}
 end
 
-aahh.LayoutRequests = {}
+gui.LayoutRequests = {}
 
 include("panels.lua")
 include("input.lua")
@@ -74,8 +74,8 @@ include("drawing.lua")
 include("skin.lua")
 include("util.lua")
 
-event.AddListener("RenderContextInitialized", "aahh", function()
-	aahh.Initialize()
+event.AddListener("RenderContextInitialized", "gui", function()
+	gui.Initialize()
 
 	event.Call("AahhInitialized")
 end)

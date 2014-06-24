@@ -3,11 +3,11 @@ local PANEL = {}
 PANEL.ClassName = "draggable"
 PANEL.Base = "panel"
 
-aahh.IsSet(PANEL, "Dragging", false)
-aahh.IsSet(PANEL, "Resizing", false)
+gui.IsSet(PANEL, "Dragging", false)
+gui.IsSet(PANEL, "Resizing", false)
 
-aahh.IsSet(PANEL, "DraggingAllowed", true)
-aahh.IsSet(PANEL, "ResizingAllowed", true)
+gui.IsSet(PANEL, "DraggingAllowed", true)
+gui.IsSet(PANEL, "ResizingAllowed", true)
 
 function PANEL:CanDrag(button, press, pos)
 	return true
@@ -66,12 +66,12 @@ end
 
 function PANEL:OnMouseMove(lpos, inside)
 
-	pos = aahh.GetMousePos()
+	pos = gui.GetMousePos()
 		
 	self:CalcCursor(pos - self:GetWorldPos())
 		
 	-- ugh
-	if aahh.IsMouseDown("button_1") then
+	if gui.IsMouseDown("button_1") then
 		if self:IsResizing() then
 			local loc = self.Resizing
 			if loc ~= "Center" then
@@ -164,4 +164,4 @@ function PANEL:OnDraw()
 	self:DrawHook("PanelDraw")
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)

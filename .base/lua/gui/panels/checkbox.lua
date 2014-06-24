@@ -2,7 +2,7 @@ local PANEL = {}
 
 PANEL.ClassName = "checkbox"
 
-aahh.IsSet(PANEL, "Checked", false)
+gui.IsSet(PANEL, "Checked", false)
 
 function PANEL:Initialize()
 	self:SetCursor("hand")
@@ -29,21 +29,21 @@ function PANEL:OnRequestLayout()
 	self:LayoutHook("ButtonLayout")
 end
 
-aahh.RegisterPanel(PANEL)
+gui.RegisterPanel(PANEL)
 
 do -- labeled checkbox
 	local PANEL = {}
 	
 	PANEL.ClassName = "labeled_checkbox"
 	
-	aahh.GetSet(PANEL, "Value", false)
+	gui.GetSet(PANEL, "Value", false)
 		
 	function PANEL:Initialize()
-		local lbl = aahh.Create("label", self)
+		local lbl = gui.Create("label", self)
 		lbl:SetText("nothing")
 		self.left_label = lbl
 		
-		local chk = aahh.Create("checkbox", self)
+		local chk = gui.Create("checkbox", self)
 		chk.OnChecked = self.OnValueChanged
 		self.checkbox = chk
 	end
@@ -75,5 +75,5 @@ do -- labeled checkbox
 	
 	end
 	
-	aahh.RegisterPanel(PANEL)
+	gui.RegisterPanel(PANEL)
 end
